@@ -1,9 +1,6 @@
 package com.example.beans.bean;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 /**
  *@ClassName Student
@@ -16,10 +13,13 @@ import lombok.ToString;
 @Getter
 @ToString
 @NoArgsConstructor
+@AllArgsConstructor
 public class Student {
     private String name;
     private Integer age;
     private String sex;
     private String School;
     private String className;
+    private Teacher teacher;
+
 }

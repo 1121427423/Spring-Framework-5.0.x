@@ -2,7 +2,43 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
-       <bean id="User" class="com.example.beans.bean.User"></bean>
-       <bean id="Teacher" class="com.example.beans.bean.Teacher"></bean>
-       <bean id="Student" class="com.example.beans.bean.Student"></bean>
+       <bean id="user" class="com.example.beans.bean.User">
+              <property name="name" value="root"/>
+              <property name="age" value="999"/>
+              <property name="sex" value="男"/>
+              <property name="hobbies">
+                     <list>
+                            <value>游泳</value>
+                            <value>玩游戏</value>
+                            <value>听音乐</value>
+                            <ref bean="student"/>
+                     </list>
+              </property>
+       </bean>
+
+       <bean id="userForMeta" class="com.example.beans.bean.User">
+              <meta key="USER_META_KEY" value="king test"/>
+       </bean>
+
+       <bean id="getBeanTest" class="com.example.beans.bean.GetBeanTest">
+              <lookup-method name="getBean" bean="teacher"/>
+       </bean>
+
+       <bean id="teacher" class="com.example.beans.bean.Teacher">
+              <property name="name" value="王老师"/>
+              <property name="age" value="22"/>
+              <property name="sex" value="男"/>
+              <replaced-method name="showMe" replacer="replacer"/>
+       </bean>
+
+       <bean id="replacer" class="com.example.beans.bean.TestMethodReplacer"/>
+
+       <bean id="student" class="com.example.beans.bean.Student">
+              <constructor-arg index="0" value="king.qian"/>
+              <constructor-arg index="1" value="18"/>
+              <constructor-arg index="2" value="男"/>
+              <constructor-arg index="3" value="南大"/>
+              <constructor-arg index="4" value="计算机"/>
+              <constructor-arg index="5" ref="teacher"/>
+       </bean>
 </beans>

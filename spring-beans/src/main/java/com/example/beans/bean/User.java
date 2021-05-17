@@ -5,6 +5,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.util.List;
+
 /**
  *@ClassName User
  *@Description TODO
@@ -21,4 +23,9 @@ public class User {
     private String name;
     private Integer age;
     private String sex;
+    private List hobbies;
+
+    public void showMe(){
+        System.out.println("I am user");
+    }
 }
