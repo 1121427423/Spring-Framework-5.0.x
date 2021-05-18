@@ -1,8 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
-       <bean id="user" class="com.example.beans.bean.User">
+       xmlns:myname="http://www.lexueba.com/schema/user"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.lexueba.com/schema/user http://www.lexueba.com/schema/user.xsd">
+
+
+       <!--import 标签导入外部的xml-->
+       <import resource="mybatis.xml"/>
+       <!--alias 标签设置bean的别名-->
+       <alias name="user" alias="user4"/>
+
+       <!--name属性别名设置 或者如上用alias标签  user2,user3,user4-->
+       <bean id="user" name="user2,user3" class="com.example.beans.bean.User">
               <property name="name" value="root"/>
               <property name="age" value="999"/>
               <property name="sex" value="男"/>
@@ -41,4 +51,17 @@
               <constructor-arg index="4" value="计算机"/>
               <constructor-arg index="5" ref="teacher"/>
        </bean>
+
+       <bean id="teacher2" class="com.example.beans.bean.Teacher">
+              <qualifier type="org.springframework.beans.factory.annotation.Qualifier" value="Teacher"/>
+       </bean>
+
+       <!--嵌入式beans标签上使用，与import功能类似-->
+       <beans>
+              <bean id="dataSource3" class="com.example.beans.bean.DataSource">
+                     <property name="host" value="192.168.1.1"/>
+                     <property name="name" value="oracle"/>
+                     <property name="password" value="123456"/>
+              </bean>
+       </beans>
 </beans>
