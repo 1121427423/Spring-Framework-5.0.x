@@ -53,7 +53,11 @@
        </bean>
 
        <bean id="teacher2" class="com.example.beans.bean.Teacher">
-              <qualifier type="org.springframework.beans.factory.annotation.Qualifier" value="Teacher"/>
+              <qualifier value="Teacher"/>
+       </bean>
+
+       <bean id="car" class="com.example.beans.bean.CarFactoryBean">
+              <property name="carInfo" value="大众,199999999"/>
        </bean>
 
        <!--嵌入式beans标签上使用，与import功能类似-->
@@ -64,4 +68,6 @@
                      <property name="password" value="123456"/>
               </bean>
        </beans>
+
+
 </beans>

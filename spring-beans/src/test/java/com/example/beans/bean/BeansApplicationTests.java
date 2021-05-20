@@ -1,4 +1,4 @@
-package com.example.beans;
+package com.example.beans.bean;
 
 import com.example.beans.bean.*;
 import org.junit.Assert;
@@ -148,4 +148,18 @@ class BeansApplicationTests {
         System.out.println(user);
     }
 
+    /**car
+     * FactoryBean 测试及使用
+     */
+    @Test
+    void testFactoryBean() throws Exception {
+        ApplicationContext bf = new ClassPathXmlApplicationContext("beanFactoryTest.xml");
+        //获取Car实例,直接调用CarFactoryBean.getObject() 方法返回Car实例
+        Car car = (Car) bf.getBean("car");
+        System.out.println(car);
+        //获取CarFactoryBean实例 返回的是CarFactoryBean
+        CarFactoryBean carFactoryBean = (CarFactoryBean) bf.getBean("&car");
+        System.out.println(carFactoryBean);  //获取CarFactoryBean实例
+        System.out.println(carFactoryBean.getObject());  //获取Car实例
+    }
 }
