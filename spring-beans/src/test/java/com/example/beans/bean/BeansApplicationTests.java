@@ -8,6 +8,7 @@ import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.xml.XmlBeanFactory;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.core.io.ClassPathResource;
 
@@ -161,5 +162,64 @@ class BeansApplicationTests {
         CarFactoryBean carFactoryBean = (CarFactoryBean) bf.getBean("&car");
         System.out.println(carFactoryBean);  //获取CarFactoryBean实例
         System.out.println(carFactoryBean.getObject());  //获取Car实例
+    }
+
+    /**
+     * FactoryBean 前置后置处理器的测试及使用
+     */
+    @Test
+    void testBeanPostProcessor() throws Exception {
+        AbstractApplicationContext bf = new ClassPathXmlApplicationContext("beanFactoryTest.xml");
+        //获取Car实例,直接调用CarFactoryBean.getObject() 方法返回Car实例
+        Cycle cycle = (Cycle) bf.getBean("cycle");
+        System.out.println(cycle.doSome());
+        bf.close();
+        //销毁cycle bean
+        //cycle.destroy();
+    }
+
+    /**
+     * 三种方式形成的循环依赖，构造器注入，Setter注入单例，Setter注入原型
+     * 构造器注入，Setter注入原型（scope="prototype"）形成的循环依赖无法解决，抛出BeanCurrentlyInCreationException异常
+     * Setter注入单例（scope="singleton"）形成的循环依赖可被spring解决，成功创建bean。
+     * Constructor Circular Dependency
+     * FactoryBean 构造器循环依赖 testA.testB,testC
+     */
+    @Test
+    void testConstructorCircularDependency() throws Exception {
+
+        //构造器注入形成的循环依赖无法解决，抛出异常：BeanCurrentlyInCreationException
+        ApplicationContext bf = new ClassPathXmlApplicationContext("beanFactoryTest.xml");
+        TestA testA = (TestA) bf.getBean("testA");
+        System.out.println(testA);
+    }
+
+    /**
+     * Setter Circular Dependency
+     * Setter方式单例，默认
+     * Scope: "singleton"
+     * FactoryBean Setter方式循环依赖 testD.testE,testF
+     */
+    @Test
+    void testSetterCircularDependency() throws Exception {
+        //setter注入形成的循环依赖,指定testD,testE,testF。 bean的scope属性都为singleton，可解决循环依赖，创建bean成功
+        //打印结果：com.example.beans.bean.TestD@1b812421
+        ApplicationContext bf = new ClassPathXmlApplicationContext("beanFactoryTest.xml");
+        TestD testD = (TestD) bf.getBean("testD");
+        System.out.println(testD);
+    }
+
+    /**
+     * Setter Circular Dependency
+     * Setter方式原型，prototype
+     * Scope: "prototype"
+     * FactoryBean Setter方式循环依赖 testD.testE,testF
+     */
+    @Test
+    void testSetterCircularDependency2() throws Exception {
+        //setter注入形成的循环依赖,指定testD,testE,testF。 bean的scope属性都为prototype，抛出异常：BeanCurrentlyInCreationException
+        ApplicationContext bf = new ClassPathXmlApplicationContext("beanFactoryTest.xml");
+        TestD testD = (TestD) bf.getBean("testD");
+        System.out.println(testD);
     }
 }

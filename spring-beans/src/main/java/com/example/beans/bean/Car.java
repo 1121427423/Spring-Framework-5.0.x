@@ -18,4 +18,5 @@ import lombok.*;
 public class Car {
     private String brand;
     private Double price;
+
 }

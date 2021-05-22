@@ -12,9 +12,24 @@ import lombok.*;
 @Setter
 @Getter
 @ToString
-@NoArgsConstructor
 @AllArgsConstructor
 public class Cycle {
     private String brand;
     private Double price;
+
+    public Cycle(){
+        System.out.println("cycle 构造器······");
+    }
+
+    public void init(){
+        System.out.println("Cycle init");
+    }
+
+    public void destroy(){
+        System.out.println("Cycle destroy");
+    }
+
+    public String doSome(){
+        return "我是凤凰牌自行车！！！";
+    }
 }

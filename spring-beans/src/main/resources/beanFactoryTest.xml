@@ -60,6 +60,33 @@
               <property name="carInfo" value="大众,199999999"/>
        </bean>
 
+       <bean id="cycle" class="com.example.beans.bean.Cycle" init-method="init" destroy-method="destroy" scope="singleton"/>
+
+       <!--bean创建时的前置后置处理器的使用-->
+       <bean class="com.example.beans.bean.CyclePostProcessor" />
+
+       <!--TestA,TestB,TestC测试循环依赖-->
+<!--       <bean id="testA" class="com.example.beans.bean.TestA">-->
+<!--              <constructor-arg index="0" ref="testB"/>-->
+<!--       </bean>-->
+<!--       <bean id="testB" class="com.example.beans.bean.TestB">-->
+<!--              <constructor-arg index="0" ref="testC"/>-->
+<!--       </bean>-->
+<!--       <bean id="testC" class="com.example.beans.bean.TestC">-->
+<!--              <constructor-arg index="0" ref="testA"/>-->
+<!--       </bean>-->
+
+       <!--TestD,TestE,TestF测试循环依赖-->
+       <bean id="testD" class="com.example.beans.bean.TestD" scope="singleton">
+              <property name="testE" ref="testE"/>
+       </bean>
+       <bean id="testE" class="com.example.beans.bean.TestE" scope="singleton">
+              <property name="testF" ref="testF"/>
+       </bean>
+       <bean id="testF" class="com.example.beans.bean.TestF" scope="singleton">
+              <property name="testD" ref="testD"/>
+       </bean>
+
        <!--嵌入式beans标签上使用，与import功能类似-->
        <beans>
               <bean id="dataSource3" class="com.example.beans.bean.DataSource">
@@ -68,6 +95,7 @@
                      <property name="password" value="123456"/>
               </bean>
        </beans>
+
 
 
 </beans>
