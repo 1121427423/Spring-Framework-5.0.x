@@ -63,7 +63,7 @@
        <bean id="cycle" class="com.example.beans.bean.Cycle" init-method="init" destroy-method="destroy" scope="singleton"/>
 
        <!--bean创建时的前置后置处理器的使用-->
-       <bean class="com.example.beans.bean.CyclePostProcessor" />
+       <bean class="com.example.beans.bean.MyBeanPostProcessor" />
 
        <!--TestA,TestB,TestC测试循环依赖-->
 <!--       <bean id="testA" class="com.example.beans.bean.TestA">-->
@@ -86,6 +86,13 @@
        <bean id="testF" class="com.example.beans.bean.TestF" scope="singleton">
               <property name="testD" ref="testD"/>
        </bean>
+
+<!--       <bean id="cat" class="com.example.beans.bean.Cat" />-->
+
+       <bean id="dog" class="com.example.beans.bean.Dog" scope="singleton" init-method="init" destroy-method="destroy"/>
+
+       <bean id="rabbit" class="com.example.beans.bean.Rabbit" scope="singleton" />
+
 
        <!--嵌入式beans标签上使用，与import功能类似-->
        <beans>

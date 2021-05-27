@@ -222,4 +222,27 @@ class BeansApplicationTests {
         TestD testD = (TestD) bf.getBean("testD");
         System.out.println(testD);
     }
+
+    /**
+     * The lifecycle of the bean
+     * Test Bean :Dog,Cat,Rabbit
+     * 总结：
+     *      @Component标注的bean比在XML中使用<bean></bean>注册的bean先创建，也最后销毁
+     *      先创建的bean最迟销毁，类似于出入栈，先入栈的反而越后出栈
+     *      bean宏观的生命周期：创建bean----->初始化----->销毁方法
+     *      bean细分的生命周期：url:https://www.javazhiyin.com/wp-content/uploads/2019/05/java0-1558500658.jpg
+     *                        本地路径：src/main/resources/static/photo/bean的生命周期.jpg
+     *      @PostConstruct， @PreDestroy 这两个注解只对使用@Component注解方式有效，XMLz中<bean></bean>注册的bean无效
+     *      在初始化bean阶段用户可以加入自己的业务逻辑处理方法————
+     *      有以下三种方式 BeanPostProcessor,(InitializingBean, DisposableBean),(@PostConstruct， @PreDestroy)
+     *      BeanPostProcessor：拦截所有的bean,可在BeanPostProcessor中对你需要调整的bean自定义，在return bean
+     *      InitializingBean: 重写afterPropertiesSet()方法，运行时期：postProcessBeforeInitialization-->afterPropertiesSet-->postProcessAfterInitialization
+     *      用注解方式注册的bean 不会走BeanPostProcessor:
+     */
+    @Test
+    void testBeanLifecycle() throws Exception {
+        //
+        AbstractApplicationContext bf = new ClassPathXmlApplicationContext("beanFactoryTest.xml");
+        bf.close();
+    }
 }
